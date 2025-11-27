@@ -14,40 +14,146 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background: linear-gradient(135deg, #0a1a2a, #000814);
+      background: radial-gradient(circle at 20% 10%, #0d3a58, #000814 60%);
       color: #fff;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+      animation: fadePage 1.2s ease;
     }
 
-    h1 {
-      font-size: 3.5em;
-      margin-bottom: 40px;
-      letter-spacing: 2px;
-      text-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
-      z-index: 1;
+    @keyframes fadePage {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+
+    /* HEADER */
+    h1 {
+      font-size: 4.1em;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      background: linear-gradient(180deg, #bdf0ff, #00c8ff, #007cff);
+      -webkit-background-clip: text;
+        background-clip: text;  
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 22px rgba(0, 180, 255, 0.4);
+      animation: drop 1.3s ease;
+    }
+
+    @keyframes drop {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* INFO TEXT — Now cleaner, more elegant */
+    .info-app {
+      font-size: 1.35em;
+      max-width: 800px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+      color: #e5f6ff;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 1.5s ease forwards;
+      text-shadow: 0 0 6px rgba(0, 180, 255, 0.3);
+    }
+
+    /* INSTRUCTIONS TITLE */
+    .instructions-title {
+      font-size: 1.5em;
+      margin-bottom: 12px;
+      color: #87dbff;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-shadow: 0 0 18px rgba(0, 200, 255, 0.55);
+    }
+
+    /* INSTRUCTIONS TEXT */
+    .instructions {
+      font-size: 1.22em;
+      max-width: 800px;
+      margin-bottom: 45px;
+      line-height: 1.65;
+      text-shadow: 0 0 8px rgba(0, 150, 255, 0.25);
+      color: #cbeaff;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 1.9s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BUTTON — new style */
     button {
-      padding: 18px 50px;
-      font-size: 1.4em;
+      padding: 16px 50px;
+      font-size: 1.35em;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #00aaff, #0066ff);
-      color: white;
+      border-radius: 14px;
       cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
-      transition: 0.3s ease;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+
+      background: linear-gradient(135deg, #00c8ff, #006aff);
+      color: white;
+
+      box-shadow: 
+        0 0 18px rgba(0, 170, 255, 0.6),
+        0 0 40px rgba(0, 170, 255, 0.35);
+
+      transition: 0.25s ease;
     }
 
     button:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(0, 180, 255, 0.9);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow:
+        0 0 30px rgba(0, 200, 255, 0.9),
+        0 0 80px rgba(0, 200, 255, 0.55);
     }
+
+    /* Floating glow lights */
+    .light {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: rgba(0, 150, 255, 0.17);
+      filter: blur(110px);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite alternate;
+    }
+
+    .light:nth-child(1) { top: 8%; left: 10%; }
+    .light:nth-child(2) { bottom: 12%; right: 10%; animation-duration: 10s; }
+
+    @keyframes float {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-28px); }
+    }
+
   </style>
 </head>
 
 <body>
 
+  <div class="light"></div>
+  <div class="light"></div>
+
   <h1>AR PC Component</h1>
+
+  <div class="info-app">
+    Website untuk menampilkan komponen PC dalam bentuk Augmented Reality
+  </div>
+
+  <div class="instructions">
+    <div class="instructions-title">Cara Menggunakan Website AR:</div>
+    1. Klik tombol <b>Mulai AR</b> di bawah<br>
+    2. Arahkan marker ke kamera<br>
+    3. Tunggu hingga komponen PC muncul dalam bentuk 3D.<br>
+  </div>
+
   <button onclick="startAR()">Mulai AR</button>
 
   <script>

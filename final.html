@@ -9,79 +9,88 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
     <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    font-family: "Segoe UI", Arial, sans-serif;
-  }
-.ui-overlay {
-  position: fixed;
-  top: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 10;
-}
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
 
-.ui-box {
-  background: rgba(0, 0, 0, 0.45);
-  padding: 15px 30px;
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
-  color: #fff;
-  font-size: 1.6em;
-  letter-spacing: 1.2px;
-  font-weight: 600;
-  box-shadow: 0 0 15px rgba(0, 200, 255, 0.35);
-}
+      /* UI Overlay */
+      .ui-overlay {
+        position: fixed;
+        top: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 10;
+      }
 
-.pulse {
-  animation: pulseText 2s infinite;
-}
+      .ui-box {
+        background: rgba(0, 20, 40, 0.55);
+        padding: 14px 32px;
+        border-radius: 14px;
+        backdrop-filter: blur(10px);
+        color: #e8f7ff;
+        font-size: 1.55em;
+        letter-spacing: 1.2px;
+        font-weight: 600;
+        box-shadow: 0 0 20px rgba(0, 180, 255, 0.28),
+                    0 0 60px rgba(0, 180, 255, 0.2);
+        border: 1px solid rgba(0, 200, 255, 0.25);
+        animation: fadeDown 1s ease forwards;
+        opacity: 0;
+      }
 
-@keyframes pulseText {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
-}
+      @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-15px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
 
-.back-btn {
-  position: fixed;
-  bottom: 25px;
-  left: 25px;
-  padding: 15px 35px;
-  background: rgba(0, 0, 0, 0.55);
-  color: white;
-  border-radius: 12px;
-  font-size: 1.3em;      /* Bigger */
-  font-weight: 600;
-  backdrop-filter: blur(6px);
-  text-decoration: none;
-  box-shadow: 0 0 15px rgba(0, 255, 128, 0.4);
-  z-index: 20;
-  transition: 0.25s ease;
-}
+      .pulse { animation: pulseText 2.2s infinite; }
 
-.back-btn:hover {
-  background: rgba(0, 0, 0, 0.75);
-  transform: scale(1.07);
-}
+      @keyframes pulseText {
+        0%, 100% { opacity: 0.55; }
+        50% { opacity: 1; }
+      }
 
+      /* Back button */
+      .back-btn {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        padding: 14px 34px;
+        background: rgba(0, 20, 40, 0.55);
+        color: white;
+        border-radius: 14px;
+        font-size: 1.25em;
+        font-weight: 600;
+        text-decoration: none;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 12px rgba(0, 255, 160, 0.4),
+                    0 0 30px rgba(0, 255, 160, 0.25);
+        border: 1px solid rgba(0, 255, 160, 0.35);
+        z-index: 20;
+        transition: 0.25s ease;
+      }
 
-</style>
-
+      .back-btn:hover {
+        background: rgba(0, 30, 60, 0.75);
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 0 22px rgba(0, 255, 160, 0.6),
+                    0 0 50px rgba(0, 255, 160, 0.35);
+      }
+    </style>
   </head>
 
-  <a href="home.html" class="back-btn">Back</a>
   <body>
+    <a href="home.html" class="back-btn">⟵ Back</a>
 
-<div class="ui-overlay">
-  <div class="ui-box">
-    <span class="pulse">Scan your marker</span>
-  </div>
-</div>
-
+    <div class="ui-overlay">
+      <div class="ui-box">
+        <span class="pulse">Scan your marker</span>
+      </div>
+    </div>
 
     <a-scene embedded arjs="sourceType: webcam;">
       <a-assets id="assetContainer"></a-assets>
@@ -90,106 +99,82 @@
     </a-scene>
 
     <script>
-      //  LIST PC PARTS 
       const pcParts = [
-        { id: "case", label: "CASE", pos: "-1 -3 0", rot: "-90 180 180", scale: "0.5 0.5 0.5"  },
-        { id: "cpu", label: "CPU", pos: "0 0 0", rot: "0 -90 0", scale: "0.1 0.1 0.1" },
-        { id: "fan", label: "FAN", pos: "0 0 0", rot: "0 0 0", scale: "20 20 20" },
-        { id: "hdd", label: "HDD", pos: "0 0 0", rot: "180 180 0", scale: "0.5 0.5 0.5" },
-        { id: "keyboard", label: "KEYBOARD", pos: "0 0 0", rot: "0 -90 0", scale: "0.1 0.1 0.1" },
-        { id: "monitor", label: "MONITOR", pos: "0 1 0", rot: "-90 0 0", scale: "6 6 6" },
-        { id: "motherboard", label: "MOTHERBOARD", pos: "0 1 0", rot: "0 90 0", scale: "2 2 2" },
-        { id: "mouse", label: "MOUSE", pos: "0 0 0", rot: "0 -90 0", scale: "1 1 1"},
-        { id: "psu", label: "PSU", pos: "0 0 0", rot: "90 0 180", scale: "0.1 0.1 0.1" },
-        { id: "ram", label: "RAM", pos: "0 0 0", rot: "0 180 180", scale: "20 20 20" },
-        { id: "ssd", label: "SSD", pos: "0 0 0", rot: "0 0 0", scale: "0.5 0.5 0.5" },
-        { id: "gpu", label: "GPU", pos: "0 0 0", rot: "-90 0 0", scale: "1 1 1" },
+        { id: "case", label: "CASE", pos: "-1 -3 0", rot: "-90 180 180", scale: "0.5 0.5 0.5", description: "Model casing PC pada umumnya" },
+        { id: "cpu", label: "CPU", pos: "0 0 0", rot: "0 -90 0", scale: "0.1 0.1 0.1", description: "Model CPU AMD Ryzen 5 3600" },
+        { id: "fan", label: "FAN", pos: "0 0 0", rot: "0 0 0", scale: "20 20 20", description: "Model fan PC pada umumnya" },
+        { id: "hdd", label: "HDD", pos: "0 0 0", rot: "180 180 0", scale: "0.5 0.5 0.5", description: "Model HDD Western Digital 1 TB " },
+        { id: "keyboard", label: "KEYBOARD", pos: "0 0 0", rot: "0 -90 0", scale: "0.1 0.1 0.1", description: "Model keyboard pada umumnya" },
+        { id: "monitor", label: "MONITOR", pos: "0 1 0", rot: "-90 0 0", scale: "6 6 6", description: "Model monitor pada umumnya" },
+        { id: "motherboard", label: "MOTHERBOARD", pos: "0 1 0", rot: "0 90 0", scale: "2 2 2", description: "Model motherboard pada umumnya" },
+        { id: "mouse", label: "MOUSE", pos: "0 0 0", rot: "0 -90 0", scale: "1 1 1", description: "Model mouse pada umumnya" },
+        { id: "psu", label: "PSU", pos: "0 0 0", rot: "90 0 180", scale: "0.1 0.1 0.1", description: "Model PSU pada umumnya" },
+        { id: "ram", label: "RAM", pos: "0 0 0", rot: "0 180 180", scale: "20 20 20", description: "Model RAM Crucial 8 GB" },
+        { id: "ssd", label: "SSD", pos: "0 0 0", rot: "0 0 0", scale: "0.5 0.5 0.5", description: "Model SSD WD Blue 250 GB" },
+        { id: "gpu", label: "GPU", pos: "0 0 0", rot: "-90 0 0", scale: "1 1 1", description: "Model GPU NVIDIA GeForce RTX 3090" },
       ];
 
       const assetContainer = document.getElementById("assetContainer");
       const markerContainer = document.getElementById("markerContainer");
 
-      // AUTO-SIZING LABEL BG
       function updateBackgroundWidth(textEl, bgEl) {
-        const value = textEl.getAttribute("value");
-        const charWidth = 0.18;
-        const padding = 0.4;
-
-        const textWidth = value.length * charWidth;
-        bgEl.setAttribute("width", textWidth + padding);
+        const charWidth = 0.18, padding = 0.4;
+        bgEl.setAttribute("width", textEl.getAttribute("value").length * charWidth + padding);
       }
 
-      // Generate assets + markers
+      // Generate markers and assets
       pcParts.forEach(part => {
-        const { id, label, pos, rot, scale } = part;
+        const { id, label, pos, rot, scale, description } = part;
 
-        assetContainer.insertAdjacentHTML(
-          "beforeend",
-          `
-            <a-asset-item id="model-${id}" src="models/${id}.glb"></a-asset-item>
-            <audio id="audio-${id}" src="sounds/${id}.mp3" preload="auto"></audio>
-          `
-        );
+        assetContainer.insertAdjacentHTML("beforeend", `
+          <a-asset-item id="model-${id}" src="models/${id}.glb"></a-asset-item>
+          <audio id="audio-${id}" src="sounds/${id}.mp3" preload="auto"></audio>
+        `);
 
-        markerContainer.insertAdjacentHTML(
-          "beforeend",
-          `
-            <a-marker type="pattern" url="markers/${id}.patt" id="marker-${id}">
-              <a-entity 
-                gltf-model="#model-${id}"
-                position="${pos}"
-                rotation="${rot}"
-                scale="${scale}">
-              </a-entity>
+        markerContainer.insertAdjacentHTML("beforeend", `
+          <a-marker type="pattern" url="markers/${id}.patt" id="marker-${id}">
+            <a-entity gltf-model="#model-${id}" position="${pos}" rotation="${rot}" scale="${scale}"></a-entity>
 
-              <a-entity id="label-${id}" position="0 0 2" rotation="-90 0 0">
+            <a-entity id="label-${id}" position="0 0 2" rotation="-90 0 0">
+              <a-plane id="bg-${id}" color="white" opacity="0.7" height="0.5" width="4" position="0 0 0.01"></a-plane>
+              <a-text id="text-${id}" value="${label}" align="center" color="black" position="0 0 0.05" scale="2 2 2"></a-text>
+            </a-entity>
 
-                <a-plane 
-                  id="bg-${id}" 
-                  color="white" 
-                  opacity="0.7"
-                  height="0.5"
-                  width="4"
-                  position="0 0 0.01">
-                </a-plane>
+            <a-entity id="description-${id}" position="0 -0.6 2" rotation="-90 0 0">
+              <a-text id="desc-text-${id}" value="${description}" align="center" color="black" position="0 -0.75 1" scale="1.5 1.5 1.5"></a-text>
+            </a-entity>
 
-                <a-text 
-                  id="text-${id}"
-                  value="${label}"
-                  align="center"
-                  color="black"
-                  position="0 0 0.05"
-                  scale="2 2 2">
-                </a-text>
-
-              </a-entity>
-
-              <a-sound id="sound-${id}" src="#audio-${id}" autoplay="false" volume="2"></a-sound>
-            </a-marker>
-          `
-        );
+            <a-sound id="sound-${id}" src="#audio-${id}" autoplay="false" volume="2"></a-sound>
+          </a-marker>
+        `);
       });
 
-      // Sound + auto resize label
-      pcParts.forEach((part) => {
-        const marker = document.getElementById(`marker-${part.id}`);
+      // Autoplay audio on markerFound
+      let currentAudio = null;
 
+      pcParts.forEach(part => {
+        const marker = document.getElementById(`marker-${part.id}`);
         marker.addEventListener("markerFound", () => {
-          const sound = document.getElementById(`sound-${part.id}`);
           const textEl = document.getElementById(`text-${part.id}`);
           const bgEl = document.getElementById(`bg-${part.id}`);
-
-          if (sound.components.sound) sound.components.sound.playSound();
           updateBackgroundWidth(textEl, bgEl);
-        });
 
-        marker.addEventListener("markerLost", () => {
-          const sound = document.getElementById(`sound-${part.id}`);
-          if (sound.components.sound) sound.components.sound.stopSound();
+          const audio = document.getElementById(`audio-${part.id}`);
+
+          if (currentAudio && currentAudio !== audio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+          }
+
+          if (currentAudio !== audio) {
+            currentAudio = audio;
+            audio.currentTime = 0;
+            audio.play().catch(err => console.log("Autoplay blocked:", err));
+
+            audio.onended = () => { currentAudio = null; };
+          }
         });
       });
-
     </script>
-
   </body>
 </html>
